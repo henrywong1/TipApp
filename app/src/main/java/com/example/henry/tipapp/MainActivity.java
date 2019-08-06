@@ -1,6 +1,7 @@
 package com.example.henry.tipapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -68,8 +69,17 @@ public class MainActivity extends AppCompatActivity {
         amountTextView.setRawInputType(Configuration.KEYBOARD_QWERTY);
 
 
-        sumTextView.setVisibility(View.INVISIBLE);
+        bOne.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ButtonEdit_Activity.class);
+                startActivity(intent);
 
+                return true;
+            }
+        });
+
+        sumTextView.setVisibility(View.INVISIBLE);
 
     }
 }

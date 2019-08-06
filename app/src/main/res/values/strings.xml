@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Tip App</string>
+    <string name="title_activity_button_edit_">ButtonEdit_Activity</string>
 </resources>

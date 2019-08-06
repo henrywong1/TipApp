@@ -25,7 +25,6 @@
         android:id="@+id/textView1"
         android:layout_width="241dp"
         android:layout_height="59dp"
-
         android:layout_marginTop="18dp"
         android:text="How much would you like to tip?"
         android:textAlignment="center"
