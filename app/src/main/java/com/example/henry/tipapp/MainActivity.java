@@ -1,5 +1,6 @@
 package com.example.henry.tipapp;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,13 +8,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
+    InputMethodManager inputManager;
     EditText amountTextView;
     Button bOne;
     Button bTwo;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onClick(View view) {
+        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         String tip = ((Button) view).getText().toString();
         String[] part = tip.split("%");
@@ -59,9 +62,10 @@ public class MainActivity extends AppCompatActivity {
         bTwo = findViewById(R.id.button2);
         bThree = findViewById(R.id.button3);
         sumTextView = findViewById(R.id.sumTextView);
+        inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
 
         amountTextView.setRawInputType(Configuration.KEYBOARD_QWERTY);
-
 
 
         sumTextView.setVisibility(View.INVISIBLE);
