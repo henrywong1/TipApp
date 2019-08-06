@@ -36,6 +36,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/amountTextView" />
 
+
+    <TextView
+        android:id="@+id/dollarTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="76dp"
+        android:text="$"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/amountTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     <EditText
         android:id="@+id/amountTextView"
         android:layout_width="79dp"

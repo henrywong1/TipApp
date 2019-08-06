@@ -1,7 +1,10 @@
 package com.example.henry.tipapp;
 
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
             totalCalc = amounts + (numTip*amounts);
             totalCalc = Math.round(totalCalc * 100);
             totalCalc = totalCalc / 100;
-            sumTextView.setText("$" + Double.toString(totalCalc));
+            String total = String.format("%.2f", totalCalc);
+            sumTextView.setText("$" + total);
         }
 
 
@@ -55,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
         bTwo = findViewById(R.id.button2);
         bThree = findViewById(R.id.button3);
         sumTextView = findViewById(R.id.sumTextView);
+
+        amountTextView.setRawInputType(Configuration.KEYBOARD_QWERTY);
+
+
 
         sumTextView.setVisibility(View.INVISIBLE);
 
