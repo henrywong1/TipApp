@@ -32,8 +32,10 @@ public class MainActivity extends AppCompatActivity {
         if (amountTextView.getText().equals("")){
             Toast.makeText(this, "Please enter the total amount before tipping", Toast.LENGTH_SHORT).show();
         } else {
+            sumTextView.setVisibility(View.VISIBLE);
             totalCalc = amounts + (numTip*amounts);
-            
+            totalCalc = Math.round(totalCalc * 100);
+            totalCalc = totalCalc / 100;
             sumTextView.setText("$" + Double.toString(totalCalc));
         }
 
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         bTwo = findViewById(R.id.button2);
         bThree = findViewById(R.id.button3);
         sumTextView = findViewById(R.id.sumTextView);
+
+        sumTextView.setVisibility(View.INVISIBLE);
 
 
     }
