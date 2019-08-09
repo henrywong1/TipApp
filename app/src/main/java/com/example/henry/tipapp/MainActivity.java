@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         double amounts = Double.parseDouble(amountTextView.getText().toString());
-        double numTip = Integer.parseInt(tipper)* (0.01);
+        double numTip = Double.parseDouble(tipper)* (0.01);
         double totalCalc;
         if (amountTextView.getText().equals("")){
             Toast.makeText(this, "Please enter the total amount before tipping", Toast.LENGTH_SHORT).show();
@@ -66,6 +64,17 @@ public class MainActivity extends AppCompatActivity {
         amountTextView.setRawInputType(Configuration.KEYBOARD_QWERTY);
 
 
+        Intent returnIntent = getIntent();
+        if (returnIntent.getStringExtra("btnOne") != null) {
+            bOne.setText(returnIntent.getStringExtra("btnOne") + "%");
+        } else if (returnIntent.getStringExtra("btnTwo") != null) {
+            bTwo.setText(returnIntent.getStringExtra("btnTwo") + "%");
+        } else if (returnIntent.getStringExtra("btnThree")!= null) {
+            Log.i("THREEEEEEEEEEEEEEEEEEEEEEEEEE","FREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEZE");
+            bThree.setText(returnIntent.getStringExtra("btnThree") + "%");
+        }
+
+
         bOne.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -73,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
                 String[] part = fButtonText.split("%");
                 Double buttonNum = Double.parseDouble(part[0]);
                 Intent intent = new Intent(getApplicationContext(), ButtonEdit_Activity.class);
-                intent.putExtra("num", buttonNum);
+                intent.putExtra("num1", buttonNum);
+                intent.putExtra("key","one");
+                Log.i("SENDING", "INFO");
                 startActivity(intent);
 
                 return true;
@@ -87,9 +98,10 @@ public class MainActivity extends AppCompatActivity {
                 String[] part = fButtonText.split("%");
                 Double buttonNum = Double.parseDouble(part[0]);
                 Intent intent = new Intent(getApplicationContext(), ButtonEdit_Activity.class);
-                intent.putExtra("num",buttonNum);
+                intent.putExtra("num2",buttonNum);
+                intent.putExtra("key","two");
+                Log.i("SENDING", "INFO");
                 startActivity(intent);
-
                 return true;
             }
         });
@@ -101,7 +113,9 @@ public class MainActivity extends AppCompatActivity {
                 String[] part = fButtonText.split("%");
                 Double buttonNum = Double.parseDouble(part[0]);
                 Intent intent = new Intent(getApplicationContext(), ButtonEdit_Activity.class);
-                intent.putExtra("num", buttonNum);
+                intent.putExtra("num3", buttonNum);
+                intent.putExtra("key","three");
+                Log.i("SENDING", "INFO");
                 startActivity(intent);
 
                 return true;
