@@ -47,11 +47,8 @@ public class MainActivity extends AppCompatActivity {
             sumTextView.setText("$" + total);
         }
 
-
-
-
-
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +76,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        bTwo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ButtonEdit_Activity.class);
+                startActivity(intent);
+
+                return true;
+            }
+        });
+
+        bThree.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ButtonEdit_Activity.class);
+                startActivity(intent);
+
+                return true;
+            }
+        });
         sumTextView.setVisibility(View.INVISIBLE);
 
     }
