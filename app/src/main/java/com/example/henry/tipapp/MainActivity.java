@@ -69,7 +69,11 @@ public class MainActivity extends AppCompatActivity {
         bOne.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                String fButtonText = bOne.getText().toString();
+                String[] part = fButtonText.split("%");
+                Double buttonNum = Double.parseDouble(part[0]);
                 Intent intent = new Intent(getApplicationContext(), ButtonEdit_Activity.class);
+                intent.putExtra("num", buttonNum);
                 startActivity(intent);
 
                 return true;
@@ -79,7 +83,11 @@ public class MainActivity extends AppCompatActivity {
         bTwo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                String fButtonText = bTwo.getText().toString();
+                String[] part = fButtonText.split("%");
+                Double buttonNum = Double.parseDouble(part[0]);
                 Intent intent = new Intent(getApplicationContext(), ButtonEdit_Activity.class);
+                intent.putExtra("num",buttonNum);
                 startActivity(intent);
 
                 return true;
@@ -89,7 +97,11 @@ public class MainActivity extends AppCompatActivity {
         bThree.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                String fButtonText = bThree.getText().toString();
+                String[] part = fButtonText.split("%");
+                Double buttonNum = Double.parseDouble(part[0]);
                 Intent intent = new Intent(getApplicationContext(), ButtonEdit_Activity.class);
+                intent.putExtra("num", buttonNum);
                 startActivity(intent);
 
                 return true;

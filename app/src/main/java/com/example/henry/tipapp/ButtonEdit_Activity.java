@@ -1,5 +1,6 @@
 package com.example.henry.tipapp;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,9 @@ public class ButtonEdit_Activity extends AppCompatActivity {
 
         editText.setRawInputType(Configuration.KEYBOARD_QWERTY);
 
+        Intent intent = getIntent();
+        String savedNum = Double.toString(intent.getDoubleExtra("num", 0));
+        editText.setText(savedNum);
 
     }
 }
