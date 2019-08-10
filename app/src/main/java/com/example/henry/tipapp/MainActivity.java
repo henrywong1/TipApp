@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onClick(View view) {
+        double totalCalc;
         inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         String s = amountTextView.getText().toString();
         for (int i = 0; i < s.length(); i++){
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
         String tip = ((Button) view).getText().toString();
         String[] part = tip.split("%");
         String tipper = part[0];
@@ -58,14 +60,28 @@ public class MainActivity extends AppCompatActivity {
 
         double amounts = Double.parseDouble(amountTextView.getText().toString());
         double numTip = Double.parseDouble(tipper)* (0.01);
-        double totalCalc;
+
         if (amountTextView.getText().equals("")){
             Toast.makeText(this, "Please enter the total amount before tipping", Toast.LENGTH_SHORT).show();
         } else {
+
+
+
             sumTextView.setVisibility(View.VISIBLE);
             totalCalc = amounts + (numTip*amounts);
             totalCalc = Math.round(totalCalc * 100);
             totalCalc = totalCalc / 100;
+
+            if (spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString().equals("1")) {
+                totalPplTextView.setVisibility(View.INVISIBLE);
+                personSumTextView.setVisibility(View.INVISIBLE);
+            } else {
+                Double numOfPeople = Double.parseDouble(spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString());
+                String total2 = String.format("%.2f" ,(totalCalc / numOfPeople));
+                personSumTextView.setText(total2);
+            }
+
+
             total = String.format("%.2f", totalCalc);
             sumTextView.setText("$" + total);
         }
@@ -102,8 +118,6 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < numPeople.length; i++) {
             numPeople[i] = Integer.toString(i+1);
         }
-
-        Log.i(Arrays.toString(numPeople), "pooopppppppppppppppppppppppppppppppppppppppppppp");
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, numPeople);
@@ -171,11 +185,13 @@ public class MainActivity extends AppCompatActivity {
         Intent returnIntent = getIntent();
         if (returnIntent.getStringExtra("btnOne") != null) {
             bOne.setText(returnIntent.getStringExtra("btnOne") + "%");
+
         } else if (returnIntent.getStringExtra("btnTwo") != null) {
             bTwo.setText(returnIntent.getStringExtra("btnTwo") + "%");
+
         } else if (returnIntent.getStringExtra("btnThree")!= null) {
-            Log.i("THREEEEEEEEEEEEEEEEEEEEEEEEEE","FREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEZE");
             bThree.setText(returnIntent.getStringExtra("btnThree") + "%");
+
         }
 
 
