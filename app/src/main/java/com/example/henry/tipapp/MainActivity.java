@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     InputMethodManager inputManager;
@@ -29,16 +30,24 @@ public class MainActivity extends AppCompatActivity {
     TextView sumTextView;
     TextView personSumTextView;
     TextView totalPplTextView;
-    String[] numPeople;
+    Spinner spinner;
+    String[] numPeople = new String[20];
     String total;
 
 
     public void onClick(View view) {
         inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        String s = amountTextView.getText().toString();
+        for (int i = 0; i < s.length(); i++){
+            if (s.charAt(i) == ',') {
+                Toast.makeText(this, "Invalid entry, please enter again", Toast.LENGTH_SHORT).show();
+                spinner.setEnabled(false);
+                return;
+            }
+        }
 
-        if (amountTextView.equals("")) {
-            Toast.makeText(this, "Please Enter your Total.", Toast.LENGTH_SHORT).show();
-            return;
+        if (s.equals("")){
+            spinner.setEnabled(false);
         }
 
 
@@ -87,10 +96,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        final Spinner spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner);
 
 
-        numPeople = new String[]{"1","2","3","4","5","6"};
+        for (int i = 0; i < numPeople.length; i++) {
+            numPeople[i] = Integer.toString(i+1);
+        }
+
+        Log.i(Arrays.toString(numPeople), "pooopppppppppppppppppppppppppppppppppppppppppppp");
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, numPeople);
@@ -123,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        spinner.setEnabled(false);
         amountTextView.setRawInputType(Configuration.KEYBOARD_QWERTY);
 
 
@@ -138,10 +152,12 @@ public class MainActivity extends AppCompatActivity {
                     bOne.setEnabled(false);
                     bTwo.setEnabled(false);
                     bThree.setEnabled(false);
+                    spinner.setEnabled(false);
                 } else {
                     bOne.setEnabled(true);
                     bTwo.setEnabled(true);
                     bThree.setEnabled(true);
+                    spinner.setEnabled(true);
                 }
             }
 
