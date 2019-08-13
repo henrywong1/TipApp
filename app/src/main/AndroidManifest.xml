@@ -16,10 +16,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ButtonEdit_Activity"
-            android:label="@string/title_activity_button_edit_"
-            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
