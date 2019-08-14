@@ -1,13 +1,11 @@
 package com.example.henry.tipapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -20,15 +18,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class MainActivity extends AppCompatActivity {
     InputMethodManager inputManager;
     EditText amountTextView;
     SeekBar seekBar;
     TextView sumTextView;
     TextView personSumTextView;
+    TextView taxSumTextView;
     TextView totalPplTextView;
     TextView percentProgressTextView;
     Spinner spinner;
@@ -83,14 +79,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         percentProgressTextView = findViewById(R.id.percentProgressTextView);
+
         amountTextView = findViewById(R.id.amountTextView);
         seekBar = findViewById(R.id.seekBar);
-        sumTextView = findViewById(R.id.sumTextView);
+        sumTextView = findViewById(R.id.sumTextView2);
         personSumTextView = findViewById(R.id.personSumTextView);
+        taxSumTextView = findViewById(R.id.taxSumTextView);
         totalPplTextView = findViewById(R.id.textView4);
         inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-
+        taxSumTextView.setVisibility(View.INVISIBLE);
         sumTextView.setVisibility(View.INVISIBLE);
         seekBar.setMin(0);
         seekBar.setMax(30);
@@ -102,10 +100,15 @@ public class MainActivity extends AppCompatActivity {
                 percentProgressTextView.setText(Integer.toString(i));
                 String s = amountTextView.getText().toString();
                 double numTip = seekBar.getProgress() * 0.01;
+
                 double amounts = Double.parseDouble(amountTextView.getText().toString());
                 double totalCalc = amounts + (numTip * amounts);
                 String total = String.format("%.2f", totalCalc);
                 sumTextView.setText("$" + total);
+
+                String taxAmounts = String.format("%.2f", (numTip * amounts));
+
+                taxSumTextView.setText("$" + taxAmounts);
                 if (s.equals("")) {
                     spinner.setEnabled(false);
                 }
@@ -182,13 +185,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (amountTextView.getText().toString().equals("") || amountTextView.getText().equals(",")) {
+                if (amountTextView.getText().toString().equals("") || amountTextView.getText().toString().equals(",")) {
                     seekBar.setEnabled(false);
                     sumTextView.setVisibility(View.INVISIBLE);
+                    taxSumTextView.setVisibility(View.INVISIBLE);
                 } else {
                     seekBar.setEnabled(true);
                     sumTextView.setVisibility(View.VISIBLE);
-                    sumTextView.setText(amountTextView.getText().toString());
+                    taxSumTextView.setVisibility(View.VISIBLE);
+                    sumTextView.setText("$" + amountTextView.getText().toString());
                 }
 
             }
