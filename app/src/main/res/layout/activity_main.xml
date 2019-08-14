@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#a8edea"
+    android:background="@android:color/background_light"
     tools:context="com.example.henry.tipapp.MainActivity">
 
 
@@ -79,9 +79,9 @@
     <TextView
         android:id="@+id/sumTextView"
         android:layout_width="79dp"
-        android:layout_height="42dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="73dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginTop="44dp"
         android:text="$9.00"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -117,13 +117,13 @@
         android:id="@+id/textView3"
         android:layout_width="65dp"
         android:layout_height="32dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="67dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="40dp"
         android:text="Total:"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/spinner"
+        app:layout_constraintEnd_toStartOf="@+id/sumTextView"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
     <TextView

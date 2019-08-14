@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -100,9 +101,13 @@ public class MainActivity extends AppCompatActivity {
         totalPplTextView = findViewById(R.id.textView4);
         inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
+
+        sumTextView.setVisibility(View.INVISIBLE);
         seekBar.setMin(0);
         seekBar.setMax(30);
         seekBar.setProgress(15);
+        seekBar.setEnabled(false);
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -160,7 +165,40 @@ public class MainActivity extends AppCompatActivity {
 
         spinner.setEnabled(false);
         amountTextView.setRawInputType(Configuration.KEYBOARD_QWERTY);
+        amountTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (keyEvent != null && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    inputManager.hideSoftInputFromWindow(textView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
+                    return true;
+                }
+                return false;
+            }
+        });
+        amountTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (amountTextView.getText().toString().equals("")) {
+                    seekBar.setEnabled(false);
+                    sumTextView.setVisibility(View.INVISIBLE);
+                } else {
+                    seekBar.setEnabled(true);
+                    sumTextView.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
 
 
