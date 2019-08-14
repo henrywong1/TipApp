@@ -39,18 +39,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         double totalCalc;
         inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        String s = amountTextView.getText().toString();
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == ',') {
-                Toast.makeText(this, "Invalid entry, please enter again", Toast.LENGTH_SHORT).show();
-                spinner.setEnabled(false);
-                return;
-            }
-        }
 
-        if (s.equals("")) {
-            spinner.setEnabled(false);
-        }
 
 
         String tip = ((Button) view).getText().toString();
@@ -105,13 +94,22 @@ public class MainActivity extends AppCompatActivity {
         sumTextView.setVisibility(View.INVISIBLE);
         seekBar.setMin(0);
         seekBar.setMax(30);
-        seekBar.setProgress(15);
         seekBar.setEnabled(false);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 percentProgressTextView.setText(Integer.toString(i));
+                String s = amountTextView.getText().toString();
+                double numTip = seekBar.getProgress() * 0.01;
+                double amounts = Double.parseDouble(amountTextView.getText().toString());
+                double totalCalc = amounts + (numTip * amounts);
+                String total = String.format("%.2f", totalCalc);
+                sumTextView.setText("$" + total);
+                if (s.equals("")) {
+                    spinner.setEnabled(false);
+                }
+                // calculate total.
             }
 
             @Override
@@ -184,12 +182,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (amountTextView.getText().toString().equals("")) {
+                if (amountTextView.getText().toString().equals("") || amountTextView.getText().equals(",")) {
                     seekBar.setEnabled(false);
                     sumTextView.setVisibility(View.INVISIBLE);
                 } else {
                     seekBar.setEnabled(true);
                     sumTextView.setVisibility(View.VISIBLE);
+                    sumTextView.setText(amountTextView.getText().toString());
                 }
 
             }
