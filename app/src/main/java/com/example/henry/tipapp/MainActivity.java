@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -32,47 +33,6 @@ public class MainActivity extends AppCompatActivity {
     String total;
 
 
-    public void onClick(View view) {
-        double totalCalc;
-        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
-
-
-        String tip = ((Button) view).getText().toString();
-        String[] part = tip.split("%");
-        String tipper = part[0];
-
-
-        double amounts = Double.parseDouble(amountTextView.getText().toString());
-        double numTip = Double.parseDouble(tipper) * (0.01);
-
-        if (amountTextView.getText().equals("")) {
-            Toast.makeText(this, "Please enter the total amount before tipping", Toast.LENGTH_SHORT).show();
-        } else {
-
-
-            sumTextView.setVisibility(View.VISIBLE);
-            totalCalc = amounts + (numTip * amounts);
-            totalCalc = Math.round(totalCalc * 100);
-            totalCalc = totalCalc / 100;
-
-            if (spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString().equals("1")) {
-                totalPplTextView.setVisibility(View.INVISIBLE);
-                personSumTextView.setVisibility(View.INVISIBLE);
-            } else {
-                Double numOfPeople = Double.parseDouble(spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString());
-                String total2 = String.format("%.2f", (totalCalc / numOfPeople));
-                personSumTextView.setText("$" + total2);
-            }
-
-
-            total = String.format("%.2f", totalCalc);
-            sumTextView.setText("$" + total);
-        }
-
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +54,22 @@ public class MainActivity extends AppCompatActivity {
         seekBar.setMax(30);
         seekBar.setEnabled(false);
 
+        spinner = findViewById(R.id.spinner);
+
+
+        for (int i = 0; i < numPeople.length; i++) {
+            numPeople[i] = Integer.toString(i + 1);
+        }
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, numPeople);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+
+
+        spinner.setEnabled(false);
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -103,12 +79,22 @@ public class MainActivity extends AppCompatActivity {
 
                 double amounts = Double.parseDouble(amountTextView.getText().toString());
                 double totalCalc = amounts + (numTip * amounts);
-                String total = String.format("%.2f", totalCalc);
+                total = String.format("%.2f", totalCalc);
                 sumTextView.setText("$" + total);
 
                 String taxAmounts = String.format("%.2f", (numTip * amounts));
 
                 taxSumTextView.setText("$" + taxAmounts);
+
+                if (spinner.getSelectedItemPosition() > 0){
+                    Log.i("Current Total", total);
+                    Double temp = Double.parseDouble(total);
+                    temp = temp / (spinner.getSelectedItemPosition()+ 1);
+                    String temp1 = String.format("%.2f", temp);
+
+                    personSumTextView.setText("$" + temp1);
+
+                }
                 if (s.equals("")) {
                     spinner.setEnabled(false);
                 }
@@ -125,34 +111,21 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        spinner = findViewById(R.id.spinner);
-
-
-        for (int i = 0; i < numPeople.length; i++) {
-            numPeople[i] = Integer.toString(i + 1);
-        }
-
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, numPeople);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i + 1 >= 2) {
                     totalPplTextView.setVisibility(View.VISIBLE);
                     personSumTextView.setVisibility(View.VISIBLE);
-                    double totalPerPerson = Double.parseDouble(total) / (i + 1);
 
-                    totalPerPerson = Math.round(totalPerPerson * 100);
-                    totalPerPerson = totalPerPerson / 100;
+                    double ppls = Double.parseDouble(total);
 
-                    String totalPP = String.format("%.2f", totalPerPerson);
-
-                    personSumTextView.setText("$" + totalPP);
+                    double totalPerPerson = ppls / (i + 1);
+                    String perPpl = String.format("%.2f", totalPerPerson);
+                    personSumTextView.setText("$" + perPpl);
+                } else if ( i == 0) {
+                    totalPplTextView.setVisibility(View.INVISIBLE);
+                    personSumTextView.setVisibility(View.INVISIBLE);
                 }
 
 
@@ -164,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        spinner.setEnabled(false);
         amountTextView.setRawInputType(Configuration.KEYBOARD_QWERTY);
         amountTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -187,12 +159,15 @@ public class MainActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (amountTextView.getText().toString().equals("") || amountTextView.getText().toString().equals(",")) {
                     seekBar.setEnabled(false);
+                    spinner.setEnabled(false);
                     sumTextView.setVisibility(View.INVISIBLE);
                     taxSumTextView.setVisibility(View.INVISIBLE);
                 } else {
                     seekBar.setEnabled(true);
+                    spinner.setEnabled(true);
                     sumTextView.setVisibility(View.VISIBLE);
                     taxSumTextView.setVisibility(View.VISIBLE);
+                    total = amountTextView.getText().toString();
                     sumTextView.setText("$" + amountTextView.getText().toString());
                 }
 
